@@ -1,0 +1,25 @@
+local reactor = peripheral.wrap("back")
+
+BIG_REACTOR_MAX_ENERGY = 10000000
+REACTOR_MIN_ENERGY = 0.2
+REACTOR_MAX_ENERGY = 0.6
+
+-- polling interval in seconds
+POLL_INTERVAL = 15
+
+while true do
+  -- energy_level is basically the current buffer percent
+  local energy_level = reactor.getEnergyStored() / BIG_REACTOR_MAX_ENERGY
+
+  print(string.format("Reactor Energy Level: %s", energy_level))
+
+  if (energy_level < REACTOR_MIN_ENERGY) then
+    print("Turning on reactor...")
+    reactor.setActive(true)
+  elseif (energy_level > REACTOR_MAX_ENERGY) then
+    print("Turning off reactor...")
+    reactor.setActive(false)
+  end
+
+  sleep(POLL_INTERVAL)
+end
